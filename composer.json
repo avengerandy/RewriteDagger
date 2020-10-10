@@ -1,0 +1,24 @@
+{
+    "name": "mazer/rewrite-dagger",
+    "description": "A php dagger that chisel out the \"seam\" for testing by rewrite code instead of using any extensions like runkit.",
+    "type": "library",
+    "scripts": {
+        "test": "phpunit"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "RewriteDagger\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "MazeR",
+            "email": "mazer0701@gmail.com"
+        }
+    ],
+    "require": {}
+}
