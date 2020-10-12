@@ -27,7 +27,7 @@
         {
             $codeRepository = new PerceiveCodeRepository();
             $dagger = new Dagger($codeRepository);
-            $dagger->addStringReplaceRule('$tempGlobalVar', '$tempChangeGlobalVar');
+            $dagger->addStringReplaceRule('not found string', 'nothing');
             $dagger->addStringReplaceRule('is a number', ': Answer to the Ultimate Question of Life, The Universe, and Everything');
             $dagger->includeCode('');
             $this->assertSame(
