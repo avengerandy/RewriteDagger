@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
     use PHPUnit\Framework\TestCase;
-    use RewriteDagger\CodeRepositoryInterface;
+    use RewriteDagger\CodeRepository\CodeRepositoryInterface;
 
     class MockCodeRepository implements CodeRepositoryInterface
     {

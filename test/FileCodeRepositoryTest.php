@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
     // mock php buildin function by namespace
-    namespace RewriteDagger;
+    namespace RewriteDagger\CodeRepository;
 
     use PHPUnit\Framework\TestCase;
 

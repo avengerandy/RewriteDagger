@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-    namespace RewriteDagger;
+    namespace RewriteDagger\CodeRepository;
 
     class FileCodeRepository implements CodeRepositoryInterface
     {
