@@ -14,12 +14,27 @@
             $this->codeRepository = $codeRepository;
         }
 
+        public function addDeleteRule(String $from): void
+        {
+            $this->addStringReplaceRule($from, '');
+        }
+
         public function addStringReplaceRule(String $from, String $to): void
         {
             $pattern = preg_quote($from, '/');
-            $this->ruleList["/{$pattern}/"] = function () use ($to) {
+            $this->addRegexReplaceRule("/{$pattern}/", $to);
+        }
+
+        public function addRegexReplaceRule(String $from, String $to): void
+        {
+            $this->addRegexReplaceCallbackRule($from, function () use ($to) {
                 return $to;
-            };
+            });
+        }
+
+        public function addRegexReplaceCallbackRule(String $from, callable $callback): void
+        {
+            $this->ruleList[$from] = $callback;
         }
 
         public function includeCode(String $path): void
