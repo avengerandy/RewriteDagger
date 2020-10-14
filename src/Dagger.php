@@ -32,6 +32,32 @@
             });
         }
 
+        public function addInsertBeforeRule(String $from, String $to): void
+        {
+            $pattern = preg_quote($from, '/');
+            $this->addRegexInsertBeforeRule("/{$pattern}/", $to);
+        }
+
+        public function addRegexInsertBeforeRule(String $from, String $to): void
+        {
+            $this->addRegexReplaceCallbackRule($from, function ($match) use ($to) {
+                return $to . $match[0];
+            });
+        }
+
+        public function addInsertAfterRule(String $from, String $to): void
+        {
+            $pattern = preg_quote($from, '/');
+            $this->addRegexInsertAfterRule("/{$pattern}/", $to);
+        }
+
+        public function addRegexInsertAfterRule(String $from, String $to): void
+        {
+            $this->addRegexReplaceCallbackRule($from, function ($match) use ($to) {
+                return $match[0] . $to;
+            });
+        }
+
         public function addRegexReplaceCallbackRule(String $from, callable $callback): void
         {
             $this->ruleList[$from] = $callback;
