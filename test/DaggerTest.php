@@ -33,12 +33,12 @@
             $this->assertSame('42 ', $codeRepository->includeCodeInput);
         }
 
-        public function testAddStringReplaceRule(): void
+        public function testAddReplaceRule(): void
         {
             $codeRepository = new PerceiveCodeRepository();
             $dagger = new Dagger($codeRepository);
-            $dagger->addStringReplaceRule('not found string', 'nothing');
-            $dagger->addStringReplaceRule('is a number', ': Answer to the Ultimate Question of Everything');
+            $dagger->addReplaceRule('not found string', 'nothing');
+            $dagger->addReplaceRule('is a number', ': Answer to the Ultimate Question of Everything');
             $dagger->includeCode('');
             $this->assertSame('42 : Answer to the Ultimate Question of Everything.', $codeRepository->includeCodeInput);
         }

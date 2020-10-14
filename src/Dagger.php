@@ -16,10 +16,10 @@
 
         public function addDeleteRule(String $from): void
         {
-            $this->addStringReplaceRule($from, '');
+            $this->addReplaceRule($from, '');
         }
 
-        public function addStringReplaceRule(String $from, String $to): void
+        public function addReplaceRule(String $from, String $to): void
         {
             $pattern = preg_quote($from, '/');
             $this->addRegexReplaceRule("/{$pattern}/", $to);
