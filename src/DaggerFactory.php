@@ -6,9 +6,14 @@
 
     class DaggerFactory
     {
-        static public function getDagger()
+        public function getDagger(): Dagger
         {
             $codeRepository = new FileCodeRepository();
-            return new Dagger($codeRepository);
+            return $this->initDagger(new Dagger($codeRepository));
+        }
+
+        protected function initDagger(Dagger $dagger): Dagger
+        {
+            return $dagger;
         }
     }

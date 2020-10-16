@@ -6,16 +6,38 @@
     use RewriteDagger\DaggerFactory;
     use RewriteDagger\CodeRepository\FileCodeRepository;
 
+    class PerceiveDaggerFactory extends DaggerFactory
+    {
+        protected function initDagger(Dagger $dagger): Dagger
+        {
+            $dagger->addReplaceRule('from', 'to');
+            return $dagger;
+        }
+    }
+
     final class DaggerFactoryTest extends TestCase
     {
         public function testGetDagger(): void
         {
-            $dagger = DaggerFactory::getDagger();
+            $dagger = (new DaggerFactory)->getDagger();
             $this->assertInstanceOf(Dagger::class, $dagger);
-            $reflectionDagger = new \ReflectionObject($dagger);
-            $codeRepositoryProperty = $reflectionDagger->getProperty('codeRepository');
-            $codeRepositoryProperty->setAccessible(true);
-            $codeRepository = $codeRepositoryProperty->getValue($dagger);
+            $codeRepository = $this->getDaggerPrivateProperty($dagger, 'codeRepository');
             $this->assertInstanceOf(FileCodeRepository::class, $codeRepository);
+        }
+
+        public function testInitDagger(): void
+        {
+            $daggerFactory = new PerceiveDaggerFactory();
+            $dagger = $daggerFactory->getDagger();
+            $ruleList = $this->getDaggerPrivateProperty($dagger, 'ruleList');
+            $this->assertSame('to', $ruleList['/from/']());
+        }
+
+        private function getDaggerPrivateProperty(Dagger $dagger, string $propertyName)
+        {
+            $reflectionDagger = new \ReflectionObject($dagger);
+            $property = $reflectionDagger->getProperty($propertyName);
+            $property->setAccessible(true);
+            return $property->getValue($dagger);
         }
     }
