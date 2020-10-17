@@ -5,6 +5,7 @@
     use RewriteDagger\Dagger;
     use RewriteDagger\DaggerFactory;
     use RewriteDagger\CodeRepository\FileCodeRepository;
+    use RewriteDagger\CodeRepository\IncludeFileCodeRepository;
 
     class PerceiveDaggerFactory extends DaggerFactory
     {
@@ -23,6 +24,7 @@
             $this->assertInstanceOf(Dagger::class, $dagger);
             $codeRepository = $this->getDaggerPrivateProperty($dagger, 'codeRepository');
             $this->assertInstanceOf(FileCodeRepository::class, $codeRepository);
+            $this->assertInstanceOf(IncludeFileCodeRepository::class, $codeRepository);
         }
 
         public function testInitDagger(): void

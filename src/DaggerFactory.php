@@ -2,13 +2,13 @@
 
     namespace RewriteDagger;
 
-    use RewriteDagger\CodeRepository\FileCodeRepository;
+    use RewriteDagger\CodeRepository\IncludeFileCodeRepository;
 
     class DaggerFactory
     {
         public function getDagger(): Dagger
         {
-            $codeRepository = new FileCodeRepository();
+            $codeRepository = new IncludeFileCodeRepository();
             return $this->initDagger(new Dagger($codeRepository));
         }
 

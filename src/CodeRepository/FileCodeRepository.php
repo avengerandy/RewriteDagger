@@ -2,13 +2,18 @@
 
     namespace RewriteDagger\CodeRepository;
 
-    class FileCodeRepository implements CodeRepositoryInterface
+    abstract class FileCodeRepository implements CodeRepositoryInterface
     {
         private $tempPath = null;
 
         function __construct(string $tempPath = null)
         {
             $this->tempPath = $tempPath ?? sys_get_temp_dir();
+        }
+
+        public function getTempPath(): string
+        {
+            return $this->tempPath;
         }
 
         public function getCodeContent(string $path): string
@@ -23,16 +28,13 @@
                 throw new \RuntimeException("Could not write file: {$tempFilePath}");
             }
 
-            include_once($tempFilePath);
+            $this->includeAndEvaluateFile($tempFilePath);
             if (!unlink($tempFilePath)) {
                 throw new \RuntimeException("Could not delete file: {$tempFilePath}");
             }
         }
 
-        public function getTempPath(): string
-        {
-            return $this->tempPath;
-        }
+        abstract protected function includeAndEvaluateFile(string $filePath): void;
 
         private function generateTempFile(): string
         {

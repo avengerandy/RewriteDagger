@@ -5,6 +5,17 @@
 
     use PHPUnit\Framework\TestCase;
 
+    // fake FileCodeRepository that can perceive includeAndEvaluateFile operation
+    class PerceiveFileCodeRepository extends FileCodeRepository
+    {
+        public $filePath = '';
+
+        protected function includeAndEvaluateFile(string $filePath): void
+        {
+            $this->filePath = $filePath;
+        }
+    }
+
     $tempGlobalVar = 0;
 
     $fileGetContentsReturn = '';
@@ -48,16 +59,16 @@
     {
         public function testInstance(): void
         {
-            $this->assertInstanceOf(CodeRepositoryInterface::class, new FileCodeRepository());
+            $this->assertInstanceOf(CodeRepositoryInterface::class, new PerceiveFileCodeRepository());
         }
 
         public function testConstruct(): void
         {
-            $fileCodeRepository = new FileCodeRepository('');
+            $fileCodeRepository = new PerceiveFileCodeRepository('');
             $this->assertSame('', $fileCodeRepository->getTempPath());
-            $fileCodeRepository = new FileCodeRepository('tempPath');
+            $fileCodeRepository = new PerceiveFileCodeRepository('tempPath');
             $this->assertSame('tempPath', $fileCodeRepository->getTempPath());
-            $fileCodeRepository = new FileCodeRepository();
+            $fileCodeRepository = new PerceiveFileCodeRepository();
             $this->assertSame(sys_get_temp_dir(), $fileCodeRepository->getTempPath());
         }
 
@@ -65,7 +76,7 @@
         {
             global $fileGetContentsReturn;
             $fileGetContentsReturn = 'mock_file_get_contents';
-            $fileCodeRepository = new FileCodeRepository('');
+            $fileCodeRepository = new PerceiveFileCodeRepository('');
             $this->assertSame('mock_file_get_contents', $fileCodeRepository->getCodeContent(''));
         }
 
@@ -73,7 +84,7 @@
         {
             $this->expectException(\RuntimeException::class);
             $this->expectExceptionMessage('Could not chmod file: ');
-            $fileCodeRepository = new FileCodeRepository('');
+            $fileCodeRepository = new PerceiveFileCodeRepository('');
             $fileCodeRepository->includeCode('');
         }
 
@@ -82,8 +93,8 @@
             global $chmodReturn;
             $chmodReturn = true;
             $this->expectException(\RuntimeException::class);
-            $this->expectExceptionMessage("Could not write file: ");
-            $fileCodeRepository = new FileCodeRepository('');
+            $this->expectExceptionMessage('Could not write file: ');
+            $fileCodeRepository = new PerceiveFileCodeRepository('');
             $fileCodeRepository->includeCode('');
         }
 
@@ -92,23 +103,23 @@
             global $filePutContentsReturn;
             $filePutContentsReturn = true;
             global $tempnamReturn;
-            $tempnamReturn = __DIR__ . '/testData/testScript.php';
+            $tempnamReturn = 'fake file path';
             global $unlinkReturn;
             $unlinkReturn = true;
-            global $tempGlobalVar;
-            $fileCodeRepository = new FileCodeRepository('');
+            $fileCodeRepository = new PerceiveFileCodeRepository('');
             $fileCodeRepository->includeCode('');
-            $this->assertSame(42, $tempGlobalVar);
+            $this->assertSame('fake file path', $fileCodeRepository->filePath);
         }
 
         public function testIncludeCodeCouldNotDelete(): void
         {
             global $tempnamReturn;
+            $tempnamReturn = '';
             global $unlinkReturn;
             $unlinkReturn = false;
             $this->expectException(\RuntimeException::class);
-            $this->expectExceptionMessage("Could not delete file: {$tempnamReturn}");
-            $fileCodeRepository = new FileCodeRepository('');
+            $this->expectExceptionMessage('Could not delete file: ');
+            $fileCodeRepository = new PerceiveFileCodeRepository('');
             $fileCodeRepository->includeCode('');
         }
     }
