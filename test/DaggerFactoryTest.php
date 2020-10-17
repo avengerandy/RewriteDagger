@@ -7,6 +7,7 @@
     use RewriteDagger\CodeRepository\FileCodeRepository;
     use RewriteDagger\CodeRepository\IncludeFileCodeRepository;
 
+    // fake CodeRepository that can perceive initDagger operation
     class PerceiveDaggerFactory extends DaggerFactory
     {
         protected function initDagger(Dagger $dagger): Dagger
