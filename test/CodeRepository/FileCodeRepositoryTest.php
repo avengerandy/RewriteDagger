@@ -1,9 +1,11 @@
 <?php declare(strict_types=1);
 
     // mock php buildin function by namespace
-    namespace RewriteDagger\CodeRepository;
+    require_once(__DIR__ . '/mock/mockBuildinFunction.php');
 
     use PHPUnit\Framework\TestCase;
+    use RewriteDagger\CodeRepository\FileCodeRepository;
+    use RewriteDagger\CodeRepository\CodeRepositoryInterface;
 
     // fake FileCodeRepository that can perceive includeAndEvaluateFile operation
     class PerceiveFileCodeRepository extends FileCodeRepository
@@ -14,45 +16,6 @@
         {
             $this->filePath = $filePath;
         }
-    }
-
-    $tempGlobalVar = 0;
-
-    $fileGetContentsReturn = '';
-    function file_get_contents(): string
-    {
-        global $fileGetContentsReturn;
-        return $fileGetContentsReturn;
-    }
-
-    function umask() {}
-
-    $tempnamReturn = '';
-    function tempnam(): string
-    {
-        global $tempnamReturn;
-        return $tempnamReturn;
-    }
-
-    $chmodReturn = false;
-    function chmod(): bool
-    {
-        global $chmodReturn;
-        return $chmodReturn;
-    }
-
-    $filePutContentsReturn = false;
-    function file_put_contents(): bool
-    {
-        global $filePutContentsReturn;
-        return $filePutContentsReturn;
-    }
-
-    $unlinkReturn = false;
-    function unlink(): bool
-    {
-        global $unlinkReturn;
-        return $unlinkReturn;
     }
 
     final class FileCodeRepositoryTest extends TestCase
@@ -82,6 +45,10 @@
 
         public function testIncludeCodeCouldNotChmod(): void
         {
+            global $tempnamReturn;
+            $tempnamReturn = '';
+            global $chmodReturn;
+            $chmodReturn = false;
             $this->expectException(\RuntimeException::class);
             $this->expectExceptionMessage('Could not chmod file: ');
             $fileCodeRepository = new PerceiveFileCodeRepository('');
@@ -90,8 +57,12 @@
 
         public function testIncludeCodeCouldNotWrite(): void
         {
+            global $tempnamReturn;
+            $tempnamReturn = '';
             global $chmodReturn;
             $chmodReturn = true;
+            global $filePutContentsReturn;
+            $filePutContentsReturn = false;
             $this->expectException(\RuntimeException::class);
             $this->expectExceptionMessage('Could not write file: ');
             $fileCodeRepository = new PerceiveFileCodeRepository('');
@@ -100,10 +71,12 @@
 
         public function testIncludeCode(): void
         {
-            global $filePutContentsReturn;
-            $filePutContentsReturn = true;
             global $tempnamReturn;
             $tempnamReturn = 'fake file path';
+            global $chmodReturn;
+            $chmodReturn = true;
+            global $filePutContentsReturn;
+            $filePutContentsReturn = true;
             global $unlinkReturn;
             $unlinkReturn = true;
             $fileCodeRepository = new PerceiveFileCodeRepository('');
@@ -115,6 +88,10 @@
         {
             global $tempnamReturn;
             $tempnamReturn = '';
+            global $chmodReturn;
+            $chmodReturn = true;
+            global $filePutContentsReturn;
+            $filePutContentsReturn = true;
             global $unlinkReturn;
             $unlinkReturn = false;
             $this->expectException(\RuntimeException::class);
