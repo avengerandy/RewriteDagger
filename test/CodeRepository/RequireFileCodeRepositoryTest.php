@@ -14,8 +14,8 @@
     {
         public function testInstance(): void
         {
-            $this->assertInstanceOf(CodeRepositoryInterface::class, new RequireFileCodeRepository());
-            $this->assertInstanceOf(FileCodeRepository::class, new RequireFileCodeRepository());
+            $this->assertInstanceOf(CodeRepositoryInterface::class, new RequireFileCodeRepository(''));
+            $this->assertInstanceOf(FileCodeRepository::class, new RequireFileCodeRepository(''));
         }
 
         /*

@@ -22,7 +22,7 @@
     {
         public function testInstance(): void
         {
-            $this->assertInstanceOf(CodeRepositoryInterface::class, new PerceiveFileCodeRepository());
+            $this->assertInstanceOf(CodeRepositoryInterface::class, new PerceiveFileCodeRepository(''));
         }
 
         public function testConstruct(): void

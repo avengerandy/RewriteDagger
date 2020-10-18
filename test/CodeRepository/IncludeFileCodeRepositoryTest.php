@@ -12,8 +12,8 @@
     {
         public function testInstance(): void
         {
-            $this->assertInstanceOf(CodeRepositoryInterface::class, new IncludeFileCodeRepository());
-            $this->assertInstanceOf(FileCodeRepository::class, new IncludeFileCodeRepository());
+            $this->assertInstanceOf(CodeRepositoryInterface::class, new IncludeFileCodeRepository(''));
+            $this->assertInstanceOf(FileCodeRepository::class, new IncludeFileCodeRepository(''));
         }
 
         // test include($filePath); is real exist by expect include warning
