@@ -7,6 +7,7 @@
     use RewriteDagger\Dagger;
     use RewriteDagger\CodeRepository\FileCodeRepository;
     use RewriteDagger\CodeRepository\CodeRepositoryInterface;
+    use RewriteDagger\CodeRepository\EvalCodeRepository;
     use RewriteDagger\CodeRepository\RequireFileCodeRepository;
 
     final class RequireFileCodeRepositoryTest extends TestCase
@@ -23,26 +24,22 @@
         * https://www.php.net/manual/en/function.require.php
         * https://www.php.net/manual/en/function.set-error-handler.php
         *
+        * since require is syntax not function, its cannot mock by namespace too
         * so use Dagger to rewrite RequireFileCodeRepository
-        * test require($filePath); is real exist and perceive its input
+        * test require($filePath); is real exist (can replaced) and perceive its input
         */
         public function testIncludeAndEvaluateFile(): void
         {
-            $dagger = new Dagger(new class implements CodeRepositoryInterface {
-                public function getCodeContent(string $path): string
-                {
-                    return file_get_contents($path);
-                }
+            // use real file_get_contents for EvalCodeRepository rewrite RequireFileCodeRepository
+            $filePath = __DIR__ . '/../../src/CodeRepository/RequireFileCodeRepository.php';
+            global $fileGetContentsReturn;
+            $fileGetContentsReturn = \file_get_contents($filePath);
 
-                public function includeCode(string $codeContent): void
-                {
-                    eval($codeContent);
-                }
-            });
+            $dagger = new Dagger(new EvalCodeRepository());
             $dagger->addDeleteRule('<?php declare(strict_types=1);');
             $dagger->addReplaceRule('RequireFileCodeRepository', 'DaggerRequireFileCodeRepository');
             $dagger->addReplaceRule('require($filePath);', 'global $mockRequirePath; $mockRequirePath = $filePath;');
-            $dagger->includeCode(__DIR__ . '/../../src/CodeRepository/RequireFileCodeRepository.php');
+            $dagger->includeCode(''); // already mock file_get_contents
 
             global $tempnamReturn;
             $tempnamReturn = 'fake file path';
