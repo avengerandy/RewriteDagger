@@ -19,6 +19,11 @@
             $this->addReplaceRule($from, '');
         }
 
+        public function addRegexDeleteRule(String $from): void
+        {
+            $this->addRegexReplaceRule($from, '');
+        }
+
         public function addReplaceRule(String $from, String $to): void
         {
             $pattern = preg_quote($from, '/');
@@ -63,16 +68,22 @@
             $this->ruleList[$from] = $callback;
         }
 
+        public function removeAllRules(): void
+        {
+            $this->ruleList = [];
+        }
+
         public function includeCode(String $path): void
         {
-            $codeContent = preg_replace_callback_array(
-                $this->ruleList,
-                $this->codeRepository->getCodeContent($path)
-            );
+            $codeContent = $this->codeRepository->getCodeContent($path);
+            // preg_replace_callback_array will return null when ruleList = []
+            if (count($this->ruleList) > 0) {
+                $codeContent = preg_replace_callback_array($this->ruleList, $codeContent);
+            }
+            // preg_replace_callback_array will return null when regex error
             if(is_null($codeContent)) {
                 $errorCode = preg_last_error();
-                $errorMessage = preg_last_error_msg();
-                throw new \RuntimeException("preg_replace error code {$errorCode}: {$errorMessage}");
+                throw new \RuntimeException("preg_replace preg_last_error: code {$errorCode}");
             }
             $this->codeRepository->includeCode($codeContent);
         }

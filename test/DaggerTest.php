@@ -27,10 +27,20 @@
         {
             $codeRepository = new PerceiveCodeRepository();
             $dagger = new Dagger($codeRepository);
-            $dagger->addDeleteRule('not found string', 'nothing');
+            $dagger->addDeleteRule('not found string');
             $dagger->addDeleteRule('is a number.');
             $dagger->includeCode('');
             $this->assertSame('42 ', $codeRepository->includeCodeInput);
+        }
+
+        public function testAddRegexDeleteRule(): void
+        {
+            $codeRepository = new PerceiveCodeRepository();
+            $dagger = new Dagger($codeRepository);
+            $dagger->addRegexDeleteRule('/not found string/');
+            $dagger->addRegexDeleteRule('/\d+/');
+            $dagger->includeCode('');
+            $this->assertSame(' is a number.', $codeRepository->includeCodeInput);
         }
 
         public function testAddReplaceRule(): void
@@ -105,5 +115,15 @@
             });
             $dagger->includeCode('');
             $this->assertSame('[42] is a (number).', $codeRepository->includeCodeInput);
+        }
+
+        public function testRemoveAllRules(): void
+        {
+            $codeRepository = new PerceiveCodeRepository();
+            $dagger = new Dagger($codeRepository);
+            $dagger->addReplaceRule('is a number', ': Answer to the Ultimate Question of Everything');
+            $dagger->removeAllRules();
+            $dagger->includeCode('');
+            $this->assertSame('42 is a number.', $codeRepository->includeCodeInput);
         }
     }
