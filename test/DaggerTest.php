@@ -126,4 +126,15 @@
             $dagger->includeCode('');
             $this->assertSame('42 is a number.', $codeRepository->includeCodeInput);
         }
+
+        public function testIncludeCodeException(): void
+        {
+            $this->expectException(\RuntimeException::class);
+            $this->expectExceptionMessage('preg_replace preg_last_error: code 1');
+            $codeRepository = new PerceiveCodeRepository();
+            $dagger = new Dagger($codeRepository);
+            $dagger->addRegexDeleteRule('/42/g');
+            // ignore preg_replace_callback_array Warning for test Exception
+            @$dagger->includeCode('');
+        }
     }
