@@ -10,6 +10,12 @@ jobs:
   unittest:
 
     runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        php-versions: ['7.3', '7.4']
+
+    name: PHP ${{ matrix.php-versions }} Test
 
     steps:
 
@@ -19,7 +25,7 @@ jobs:
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.3
+          php-version: ${{ matrix.php-versions }}
           tools: composer:v2
 
       - name: Install dependencies
