@@ -14,6 +14,8 @@ A php test tool that mock **anything** without using any extensions.
         - [FileCodeRepository](#fileCodeRepository)
         - [EvalCodeRepository](#evalCodeRepository)
     - [DaggerFactory](#daggerFactory)
+- [Testing](#testing)
+- [Disadvantage](#disadvantage)
 - [Related](#related)
 - [License](#license)
 
@@ -129,5 +131,9 @@ Though RewriteDagger, we can easily replace `header` and `exit` to other class w
 ## DaggerFactory
 
 # Related
+
+# Testing
+
+# Disadvantage
 
 # License
