@@ -3,7 +3,8 @@
     "description": "A php dagger that chisel out the \"seam\" for testing by rewrite code instead of using any extensions like runkit.",
     "type": "library",
     "scripts": {
-        "test": "phpunit"
+        "test": "phpunit",
+        "testWithCoverage": "phpunit --coverage-text --whitelist src/ --colors"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.4"

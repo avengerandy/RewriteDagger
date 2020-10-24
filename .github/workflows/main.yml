@@ -27,9 +27,10 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: composer:v2
+          coverage: xdebug
 
       - name: Install dependencies
-        run: composer install
+        run: composer install --no-progress
 
       - name: Test with phpunit
-        run: composer test
+        run: composer testWithCoverage
