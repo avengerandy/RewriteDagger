@@ -1,6 +1,6 @@
 # RewriteDagger
 
-![unittest](https://github.com/avengerandy/RewriteDagger/workflows/main.yml/badge.svg)
+![unittest](https://github.com/avengerandy/RewriteDagger/workflows/CI/badge.svg)
 
 A php test tool that mock **anything** without using any extensions.
 
