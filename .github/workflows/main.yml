@@ -1,4 +1,4 @@
-name: CI
+name: tests
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
   unittest:
 
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         php-versions: ['7.3', '7.4']
@@ -30,6 +30,6 @@ jobs:
 
       - name: Install dependencies
         run: composer install
-        
+
       - name: Test with phpunit
         run: composer test
