@@ -18,17 +18,34 @@
             $this->assertInstanceOf(FileCodeRepository::class, new RequireFileCodeRepository(''));
         }
 
-        /*
-        * phpunit cannot except require error
-        * require produce a fatal E_COMPILE_ERROR level error that cannot be handled with a user defined function.
-        * https://www.php.net/manual/en/function.require.php
-        * https://www.php.net/manual/en/function.set-error-handler.php
-        *
-        * since require is syntax not function, its cannot mock by namespace too
-        * so use Dagger to rewrite RequireFileCodeRepository
-        * test require($filePath); is real exist (can replaced) and perceive its input
-        */
         public function testIncludeAndEvaluateFile(): void
+        {
+            global $tempnamReturn;
+            $tempnamReturn = __DIR__ . '/mock/mockCodeFile.php';
+            global $chmodReturn;
+            $chmodReturn = true;
+            global $filePutContentsReturn;
+            $filePutContentsReturn = true;
+            global $unlinkReturn;
+            $unlinkReturn = true;
+            global $varFromMockCodeFile;
+            $varFromMockCodeFile = 0;
+            $fileCodeRepository = new RequireFileCodeRepository('');
+            $fileCodeRepository->includeCode('');
+            $this->assertSame(42, $varFromMockCodeFile);
+        }
+
+        /*
+         * phpunit cannot except require error
+         * require produce a fatal E_COMPILE_ERROR level error that cannot be handled with a user defined function.
+         * https://www.php.net/manual/en/function.require.php
+         * https://www.php.net/manual/en/function.set-error-handler.php
+         *
+         * since require is syntax not function, its cannot mock by namespace too
+         * so use Dagger to rewrite RequireFileCodeRepository
+         * test require($filePath); is real exist (can replaced) and perceive its input
+         */
+        public function testIncludeAndEvaluateFileError(): void
         {
             // use real file_get_contents for EvalCodeRepository rewrite RequireFileCodeRepository
             $filePath = __DIR__ . '/../../src/CodeRepository/RequireFileCodeRepository.php';

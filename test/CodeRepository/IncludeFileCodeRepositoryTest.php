@@ -20,6 +20,23 @@
         public function testIncludeAndEvaluateFile(): void
         {
             global $tempnamReturn;
+            $tempnamReturn = __DIR__ . '/mock/mockCodeFile.php';
+            global $chmodReturn;
+            $chmodReturn = true;
+            global $filePutContentsReturn;
+            $filePutContentsReturn = true;
+            global $unlinkReturn;
+            $unlinkReturn = true;
+            global $varFromMockCodeFile;
+            $varFromMockCodeFile = 0;
+            $fileCodeRepository = new IncludeFileCodeRepository('');
+            $fileCodeRepository->includeCode('');
+            $this->assertSame(42, $varFromMockCodeFile);
+        }
+
+        public function testIncludeAndEvaluateFileWarning(): void
+        {
+            global $tempnamReturn;
             $tempnamReturn = 'fake file path';
             global $chmodReturn;
             $chmodReturn = true;

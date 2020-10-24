@@ -57,6 +57,16 @@
             $this->assertInstanceOf(EvalCodeRepository::class, $codeRepository);
         }
 
+        public function testGetDaggerExcecption(): void
+        {
+            $this->expectException(\InvalidArgumentException::class);
+            $this->expectExceptionMessage('unknown codeRepositoryType: unknown');
+            // unknown codeRepositoryType
+            $dagger = (new DaggerFactory)->getDagger([
+                'codeRepositoryType' => 'unknown'
+            ]);
+        }
+
         public function testInitDagger(): void
         {
             $daggerFactory = new PerceiveDaggerFactory();
