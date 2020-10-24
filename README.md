@@ -1,5 +1,7 @@
 # RewriteDagger
 
+[![CI Actions Status](https://github.com/avengerandy/RewriteDagger/workflows/main/badge.svg)](https://github.com/avengerandy/RewriteDagger/actions)
+
 A php test tool that mock **anything** without using any extensions.
 
 # Table of content
