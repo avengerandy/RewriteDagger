@@ -29,11 +29,11 @@ jobs:
           tools: composer:v2
           coverage: xdebug
 
-      - if: ${{ matrix.php-versions }} == 7.2
+      - if: ${{ matrix.php-versions == 7.2 }}
         name: Install dependencies (php 7.2)
         run: composer update --no-progress
 
-      - if: ${{ matrix.php-versions }} != 7.2
+      - if: ${{ matrix.php-versions != 7.2 }}
         name: Install dependencies
         run: composer install --no-progress
 
