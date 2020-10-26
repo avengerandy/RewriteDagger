@@ -1,6 +1,7 @@
 # RewriteDagger
 
-![tests](https://github.com/avengerandy/RewriteDagger/workflows/tests/badge.svg)
+<a href="https://github.com/avengerandy/RewriteDagger/actions?query=workflow%3Atests"><img src="https://github.com/avengerandy/RewriteDagger/workflows/tests/badge.svg" alt="tests"></a>
+<a href="https://github.com/avengerandy/RewriteDagger/actions?query=workflow%3Acoding-style"><img src="https://github.com/avengerandy/RewriteDagger/workflows/coding-style/badge.svg" alt="coding-style"></a>
 
 A php test tool that mock **anything** without using any extensions.
 
