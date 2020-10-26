@@ -9,7 +9,7 @@
         private $codeRepository = null;
         private $ruleList = [];
 
-        function __construct(CodeRepositoryInterface $codeRepository)
+        public function __construct(CodeRepositoryInterface $codeRepository)
         {
             $this->codeRepository = $codeRepository;
         }
@@ -81,7 +81,7 @@
                 $codeContent = preg_replace_callback_array($this->ruleList, $codeContent);
             }
             // preg_replace_callback_array will return null when regex error
-            if(is_null($codeContent)) {
+            if (is_null($codeContent)) {
                 $errorCode = preg_last_error();
                 throw new \RuntimeException("preg_replace preg_last_error: code {$errorCode}");
             }

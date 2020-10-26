@@ -11,7 +11,9 @@
         return $fileGetContentsReturn;
     }
 
-    function umask() {}
+    function umask()
+    {
+    }
 
     global $tempnamReturn;
     $tempnamReturn = '';

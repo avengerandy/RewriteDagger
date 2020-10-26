@@ -6,7 +6,7 @@
     {
         private $tempPath = null;
 
-        function __construct(string $tempPath = null)
+        public function __construct(string $tempPath = null)
         {
             $this->tempPath = $tempPath ?? sys_get_temp_dir();
         }

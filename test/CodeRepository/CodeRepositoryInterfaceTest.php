@@ -10,7 +10,9 @@
             return 'MockCodeRepository';
         }
 
-        public function includeCode(string $codeContent): void {}
+        public function includeCode(string $codeContent): void
+        {
+        }
     }
 
     final class CodeRepositoryInterfaceTest extends TestCase
