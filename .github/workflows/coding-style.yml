@@ -24,7 +24,7 @@ jobs:
           php-version: 7.3
           tools: composer:v2
 
-        name: Install dependencies
+      - name: Install dependencies
         run: composer install --no-progress
 
       - name: Check with PHP-CS-Fixer

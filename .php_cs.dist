@@ -1,3 +1,7 @@
 <?php
 
-    return PhpCsFixer\Config::create()->setUsingCache(false)->setLineEnding("\r\n");
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        return PhpCsFixer\Config::create()->setUsingCache(false)->setLineEnding("\r\n");
+    } else {
+        return PhpCsFixer\Config::create()->setUsingCache(false);
+    }
