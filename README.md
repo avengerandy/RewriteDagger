@@ -123,6 +123,17 @@ Though RewriteDagger, we can easily replace `header` and `exit` to other class w
 
 ## How it works
 
+As [Features](#features) say, RewriteDagger rewrite test target code before it be included and evaluated.
+
+To achieve this function, it has three core part:
+ - Dagger: rewrite test target code
+ - CodeRepository: included and evaluated test target code
+ - DaggerFactory: create Dagger
+
+Dagger mainly focse on various rewrite rule itself, then operate, include and evaluate code with CodeRepository that injection by DaggerFactory.
+
+Follows, we explain the use of these three components separately.
+
 ## Dagger
 
 ## CodeRepository
@@ -137,6 +148,40 @@ Though RewriteDagger, we can easily replace `header` and `exit` to other class w
 
 # Testing
 
+All command about test are defined in `composer.json`.
+
+The only thing you need to notice is that phpunit varsion in `composer.lock` is 9, which don't support php 7.2.
+But RewriteDagger do support php 7.2, so make sure to run `compoesr update` to change phpunit varsion to 8 before test, if you are using php 7.2.
+
+```json
+{
+    // ...
+    "scripts": {
+        "test": "phpunit",
+        "testWithCoverage": "phpunit --coverage-text --whitelist src/ --colors",
+        "codingStyleCheck": "php-cs-fixer fix ./ --dry-run --diff"
+    },
+    // ...
+}
+```
+
+test without coverage
+```
+composer test
+```
+
+test with coverage
+```
+composer testWithCoverage
+```
+
+check coding style
+```
+composer codingStyleCheck
+```
+
 # Disadvantage
 
 # License
+
+MIT License
