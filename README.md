@@ -140,15 +140,14 @@ Follows, we explain the use of these three components separately.
 
 Dagger dependent on any implement of CodeRepositoryInterface to help it evaluate code that has been rewrited.
 
+
 ### `includeCode(String $path): void`
 
 Include, rewrite, evaluate code file that corresponds to `$path`.
 
-### Method for add rules
+Dagger can has multi rewrite rules, when `includeCode` called, Dagger execution all of them on code file content before evaluate.
 
-Dagger can has multi rules, when `includeCode` called, Dagger execution all of them on code file content before evaluate.
-
-#### `addDeleteRule(String $from): void`
+### `addDeleteRule(String $from): void`
 
 ```php
 $dagger->addDeleteRule('is a number.');
@@ -158,7 +157,8 @@ $dagger->addDeleteRule('is a number.');
 |-|-|
 |`42 is a number.`|`42 `|
 
-#### `testAddRegexDeleteRule(String $from): void`
+
+### `testAddRegexDeleteRule(String $from): void`
 
 ```php
 $dagger->addRegexDeleteRule('/\d+/');
@@ -168,7 +168,8 @@ $dagger->addRegexDeleteRule('/\d+/');
 |-|-|
 |`42 is a number.`|` is a number.`|
 
-#### `addReplaceRule(String $from, String $to): void`
+
+### `addReplaceRule(String $from, String $to): void`
 
 ```php
 $dagger->addReplaceRule('is a number', ': Answer to the Ultimate Question of Everything');
@@ -178,7 +179,8 @@ $dagger->addReplaceRule('is a number', ': Answer to the Ultimate Question of Eve
 |-|-|
 |`42 is a number.`|`42 : Answer to the Ultimate Question of Everything.`|
 
-#### `addRegexReplaceRule(String $from, String $to): void`
+
+### `addRegexReplaceRule(String $from, String $to): void`
 
 ```php
 $dagger->addRegexReplaceRule('/\d+/', 'Number');
@@ -188,7 +190,8 @@ $dagger->addRegexReplaceRule('/\d+/', 'Number');
 |-|-|
 |`42 is a number.`|`Number is a number.`|
 
-#### `addInsertBeforeRule(String $from, String $to): void`
+
+### `addInsertBeforeRule(String $from, String $to): void`
 
 ```php
 $dagger->addInsertBeforeRule('number', 'answer and ');
@@ -198,7 +201,8 @@ $dagger->addInsertBeforeRule('number', 'answer and ');
 |-|-|
 |`42 is a number.`|`42 is a answer and number.`|
 
-#### `addRegexInsertBeforeRule(String $from, String $to): void`
+
+### `addRegexInsertBeforeRule(String $from, String $to): void`
 
 ```php
 $dagger->addRegexInsertBeforeRule('/\d+/', '(Number) ');
@@ -208,7 +212,8 @@ $dagger->addRegexInsertBeforeRule('/\d+/', '(Number) ');
 |-|-|
 |`42 is a number.`|`(Number) 42 is a number.`|
 
-#### `addInsertAfterRule(String $from, String $to): void`
+
+### `addInsertAfterRule(String $from, String $to): void`
 
 ```php
 $dagger->addInsertAfterRule('number', ' and answer');
@@ -218,7 +223,8 @@ $dagger->addInsertAfterRule('number', ' and answer');
 |-|-|
 |`42 is a number.`|`42 is a number and answer.`|
 
-#### `addRegexInsertAfterRule(String $from, String $to): void`
+
+### `addRegexInsertAfterRule(String $from, String $to): void`
 
 ```php
 $dagger->addRegexInsertAfterRule('/\d+/', ' (Number)');
@@ -228,7 +234,8 @@ $dagger->addRegexInsertAfterRule('/\d+/', ' (Number)');
 |-|-|
 |`42 is a number.`|`42 (Number) is a number.`|
 
-#### `addRegexReplaceCallbackRule(String $from, callable $callback): void`
+
+### `addRegexReplaceCallbackRule(String $from, callable $callback): void`
 
 ```php
 $dagger->addRegexReplaceCallbackRule('/^(\d+).*(number)\.$/', function ($match) {
@@ -239,6 +246,7 @@ $dagger->addRegexReplaceCallbackRule('/^(\d+).*(number)\.$/', function ($match) 
 |before|after|
 |-|-|
 |`42 is a number.`|`[42] is a (number).`|
+
 
 ### `testRemoveAllRules(): void`
 
