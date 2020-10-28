@@ -136,6 +136,114 @@ Follows, we explain the use of these three components separately.
 
 ## Dagger
 
+### `__construct(CodeRepositoryInterface $codeRepository)`
+
+Dagger dependent on any implement of CodeRepositoryInterface to help it evaluate code that has been rewrited.
+
+### `includeCode(String $path): void`
+
+Include, rewrite, evaluate code file that corresponds to `$path`.
+
+### Method for add rules
+
+Dagger can has multi rules, when `includeCode` called, Dagger execution all of them on code file content before evaluate.
+
+#### `addDeleteRule(String $from): void`
+
+```php
+$dagger->addDeleteRule('is a number.');
+```
+
+|before|after|
+|-|-|
+|`42 is a number.`|`42 `|
+
+#### `testAddRegexDeleteRule(String $from): void`
+
+```php
+$dagger->addRegexDeleteRule('/\d+/');
+```
+
+|before|after|
+|-|-|
+|`42 is a number.`|` is a number.`|
+
+#### `addReplaceRule(String $from, String $to): void`
+
+```php
+$dagger->addReplaceRule('is a number', ': Answer to the Ultimate Question of Everything');
+```
+
+|before|after|
+|-|-|
+|`42 is a number.`|`42 : Answer to the Ultimate Question of Everything.`|
+
+#### `addRegexReplaceRule(String $from, String $to): void`
+
+```php
+$dagger->addRegexReplaceRule('/\d+/', 'Number');
+```
+
+|before|after|
+|-|-|
+|`42 is a number.`|`Number is a number.`|
+
+#### `addInsertBeforeRule(String $from, String $to): void`
+
+```php
+$dagger->addInsertBeforeRule('number', 'answer and ');
+```
+
+|before|after|
+|-|-|
+|`42 is a number.`|`42 is a answer and number.`|
+
+#### `addRegexInsertBeforeRule(String $from, String $to): void`
+
+```php
+$dagger->addRegexInsertBeforeRule('/\d+/', '(Number) ');
+```
+
+|before|after|
+|-|-|
+|`42 is a number.`|`(Number) 42 is a number.`|
+
+#### `addInsertAfterRule(String $from, String $to): void`
+
+```php
+$dagger->addInsertAfterRule('number', ' and answer');
+```
+
+|before|after|
+|-|-|
+|`42 is a number.`|`42 is a number and answer.`|
+
+#### `addRegexInsertAfterRule(String $from, String $to): void`
+
+```php
+$dagger->addRegexInsertAfterRule('/\d+/', ' (Number)');
+```
+
+|before|after|
+|-|-|
+|`42 is a number.`|`42 (Number) is a number.`|
+
+#### `addRegexReplaceCallbackRule(String $from, callable $callback): void`
+
+```php
+$dagger->addRegexReplaceCallbackRule('/^(\d+).*(number)\.$/', function ($match) {
+    return "[{$match[1]}] is a ({$match[2]}).";
+});
+```
+
+|before|after|
+|-|-|
+|`42 is a number.`|`[42] is a (number).`|
+
+### `testRemoveAllRules(): void`
+
+Remove all rules set before.
+
 ## CodeRepository
 
 ### FileCodeRepository
