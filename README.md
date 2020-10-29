@@ -268,6 +268,13 @@ Remove all rules set before.
 
 ## CodeRepository
 
+All codeRepository are implement `CodeRepositoryInterface` which provide
+
+- `getCodeContent(string $path): string`: get code content that corresponds to `$path`.
+- `includeCode(string $codeContent): void`: evaluate `$codeContent`.
+
+In PHP, there are two way can evaluate a string as code. One is write string as a real file then `include` it, the other is use `eval` function. RewriteDagger implement them in `FileCodeRepository` and `EvalCodeRepository` respectively.
+
 ### FileCodeRepository
 
 ### EvalCodeRepository
