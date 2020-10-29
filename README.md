@@ -140,12 +140,15 @@ Follows, we explain the use of these three components separately.
 
 Dagger dependent on any implement of CodeRepositoryInterface to help it evaluate code that has been rewrited.
 
+<br>
 
 ### `includeCode(String $path): void`
 
 Include, rewrite, evaluate code file that corresponds to `$path`.
 
 Dagger can has multi rewrite rules, when `includeCode` called, Dagger execution all of them on code file content before evaluate.
+
+<br>
 
 ### `addDeleteRule(String $from): void`
 
@@ -157,6 +160,7 @@ $dagger->addDeleteRule('is a number.');
 |-|-|
 |`42 is a number.`|`42 `|
 
+<br>
 
 ### `testAddRegexDeleteRule(String $from): void`
 
@@ -168,6 +172,7 @@ $dagger->addRegexDeleteRule('/\d+/');
 |-|-|
 |`42 is a number.`|` is a number.`|
 
+<br>
 
 ### `addReplaceRule(String $from, String $to): void`
 
@@ -179,6 +184,7 @@ $dagger->addReplaceRule('is a number', ': Answer to the Ultimate Question of Eve
 |-|-|
 |`42 is a number.`|`42 : Answer to the Ultimate Question of Everything.`|
 
+<br>
 
 ### `addRegexReplaceRule(String $from, String $to): void`
 
@@ -190,6 +196,7 @@ $dagger->addRegexReplaceRule('/\d+/', 'Number');
 |-|-|
 |`42 is a number.`|`Number is a number.`|
 
+<br>
 
 ### `addInsertBeforeRule(String $from, String $to): void`
 
@@ -201,6 +208,7 @@ $dagger->addInsertBeforeRule('number', 'answer and ');
 |-|-|
 |`42 is a number.`|`42 is a answer and number.`|
 
+<br>
 
 ### `addRegexInsertBeforeRule(String $from, String $to): void`
 
@@ -212,6 +220,7 @@ $dagger->addRegexInsertBeforeRule('/\d+/', '(Number) ');
 |-|-|
 |`42 is a number.`|`(Number) 42 is a number.`|
 
+<br>
 
 ### `addInsertAfterRule(String $from, String $to): void`
 
@@ -223,6 +232,7 @@ $dagger->addInsertAfterRule('number', ' and answer');
 |-|-|
 |`42 is a number.`|`42 is a number and answer.`|
 
+<br>
 
 ### `addRegexInsertAfterRule(String $from, String $to): void`
 
@@ -234,6 +244,7 @@ $dagger->addRegexInsertAfterRule('/\d+/', ' (Number)');
 |-|-|
 |`42 is a number.`|`42 (Number) is a number.`|
 
+<br>
 
 ### `addRegexReplaceCallbackRule(String $from, callable $callback): void`
 
@@ -247,10 +258,13 @@ $dagger->addRegexReplaceCallbackRule('/^(\d+).*(number)\.$/', function ($match) 
 |-|-|
 |`42 is a number.`|`[42] is a (number).`|
 
+<br>
 
 ### `testRemoveAllRules(): void`
 
 Remove all rules set before.
+
+<br>
 
 ## CodeRepository
 
