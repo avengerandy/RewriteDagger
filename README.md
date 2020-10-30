@@ -268,16 +268,33 @@ Remove all rules set before.
 
 ## CodeRepository
 
-All codeRepository are implement `CodeRepositoryInterface` which provide
+All codeRepository are implement CodeRepositoryInterface which provide
 
 - `getCodeContent(string $path): string`: get code content that corresponds to `$path`.
 - `includeCode(string $codeContent): void`: evaluate `$codeContent`.
 
-In PHP, there are two way can evaluate a string as code. One is write string as a real file then `include` it, the other is use `eval` function. RewriteDagger implement them in `FileCodeRepository` and `EvalCodeRepository` respectively.
+In PHP, there are two way can evaluate a string as code. One is write string as a real file then `include()` or `require()` it, the other is use `eval` function. RewriteDagger implement them in `FileCodeRepository` and `EvalCodeRepository` respectively.
+
+<br>
 
 ### FileCodeRepository
 
+#### `__construct(string $tempPath = null)`
+
+FileCodeRepository write string as a temporary file at `$tempPath` with unique name than includes and evaluates it. If `$tempPath` is `null`, FileCodeRepository generate it auto by `sys_get_temp_dir()`.
+
+- IncludeFileCodeRepository: use `include()` includes and evaluates the file.
+- RequireFileCodeRepository: use `require()` includes and evaluates the file.
+
+<br>
+
 ### EvalCodeRepository
+
+#### `__construct()`
+
+EvalCodeRepository is much simpler than FileCodeRepository, it `eval()` the input string directly.
+
+<br>
 
 ## DaggerFactory
 
