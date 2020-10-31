@@ -23,6 +23,7 @@ A php test tool that mock **anything** without using any extensions.
 - [Testing](#testing)
 - [Disadvantage](#disadvantage)
 - [Inspire](#inspire)
+- [Related repo](#related-repo)
 - [License](#license)
 
 # Install
@@ -346,10 +347,6 @@ Generally, unless you want to use a custom CodeRepository in Dagger, Dagger and 
     $dagger = (new CustomDaggerFactory())->getDagger();
 ```
 
-# Inspire
-
-RewriteDagger is inspired by the book 《*Working Effectively with Legacy Code*》 ( ISBN 13: 978-0131177055). Hope to provide *Link Seams* in PHP to make legacy PHP code easier to test.
-
 # Testing
 
 All the commands for testing are defined in `composer.json`.
@@ -390,6 +387,14 @@ The two biggest disadvantages of using RewriteDagger are reduced test coverage a
 
 - test coverage: Since the rewritten code does not belong to the original code in the project, for most test coverage tools, the original code in the project is not actually executed.
 - readability: People who read the test program must understand all of the tested target to understand the side effects of each rewriting rule.
+
+# Inspire
+
+RewriteDagger is inspired by the book 《*Working Effectively with Legacy Code*》 ( ISBN 13: 978-0131177055). Hope to provide *Link Seams* in PHP to make legacy PHP code easier to test.
+
+# Related repo
+
+[badoo/soft-mocks](https://github.com/badoo/soft-mocks)
 
 # License
 
