@@ -2,9 +2,9 @@
 
 <a href="https://github.com/avengerandy/RewriteDagger/actions?query=workflow%3Atests"><img src="https://github.com/avengerandy/RewriteDagger/workflows/tests/badge.svg" alt="tests"></a>
 <a href="https://github.com/avengerandy/RewriteDagger/actions?query=workflow%3Acoding-style"><img src="https://github.com/avengerandy/RewriteDagger/workflows/coding-style/badge.svg" alt="coding-style"></a>
-<a href="https://packagist.org/mazer/rewrite-dagger"><img src="https://img.shields.io/packagist/php-v/mazer/rewrite-dagger" alt="PHP Version Requires"></a>
+<a href="https://packagist.org/packages/mazer/rewrite-dagger"><img src="https://img.shields.io/packagist/php-v/mazer/rewrite-dagger" alt="PHP Version Requires"></a>
 <a href="https://packagist.org/packages/mazer/rewrite-dagger"><img src="https://img.shields.io/packagist/v/mazer/rewrite-dagger" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/mazer/rewrite-dagger"><img src="https://img.shields.io/packagist/l/mazer/rewrite-dagger" alt="License"></a>
+<a href="https://packagist.org/packages/mazer/rewrite-dagger"><img src="https://img.shields.io/packagist/l/mazer/rewrite-dagger" alt="License"></a>
 
 A php test tool that mock **anything** without using any extensions.
 
