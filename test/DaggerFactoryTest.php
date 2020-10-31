@@ -24,7 +24,7 @@
         public function testGetDagger(): void
         {
             // default
-            $dagger = (new DaggerFactory)->getDagger();
+            $dagger = (new DaggerFactory())->getDagger();
             $this->assertInstanceOf(Dagger::class, $dagger);
             $codeRepository = $this->getDaggerPrivateProperty($dagger, 'codeRepository');
             $this->assertInstanceOf(CodeRepositoryInterface::class, $codeRepository);
@@ -32,7 +32,7 @@
             $this->assertSame(sys_get_temp_dir(), $codeRepository->getTempPath());
 
             // include
-            $dagger = (new DaggerFactory)->getDagger([
+            $dagger = (new DaggerFactory())->getDagger([
                 'codeRepositoryType' => 'include',
                 'tempPath' => 'fake temp path'
             ]);
@@ -41,7 +41,7 @@
             $this->assertSame('fake temp path', $codeRepository->getTempPath());
 
             // require
-            $dagger = (new DaggerFactory)->getDagger([
+            $dagger = (new DaggerFactory())->getDagger([
                 'codeRepositoryType' => 'require',
                 'tempPath' => 'fake temp path'
             ]);
@@ -50,7 +50,7 @@
             $this->assertSame('fake temp path', $codeRepository->getTempPath());
 
             // eval
-            $dagger = (new DaggerFactory)->getDagger([
+            $dagger = (new DaggerFactory())->getDagger([
                 'codeRepositoryType' => 'eval'
             ]);
             $codeRepository = $this->getDaggerPrivateProperty($dagger, 'codeRepository');
@@ -62,7 +62,7 @@
             $this->expectException(\InvalidArgumentException::class);
             $this->expectExceptionMessage('unknown codeRepositoryType: unknown');
             // unknown codeRepositoryType
-            $dagger = (new DaggerFactory)->getDagger([
+            $dagger = (new DaggerFactory())->getDagger([
                 'codeRepositoryType' => 'unknown'
             ]);
         }
