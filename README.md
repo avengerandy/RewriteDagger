@@ -85,7 +85,7 @@ To solve this problem, we test it by PHPUnit and RewriteDagger
     {
         public function testApiErrorResponse(): void
         {
-            $dagger = (new DaggerFactory)->getDagger();
+            $dagger = (new DaggerFactory())->getDagger();
             // add rewrite rule
             $dagger->addReplaceRule('exit', 'Mock::exit');
             $dagger->addReplaceRule('header', 'Mock::header');
@@ -268,7 +268,7 @@ Remove all rules set before.
 
 ## CodeRepository
 
-All codeRepository are implement CodeRepositoryInterface which provide
+All codeRepository is the implementation of CodeRepositoryInterface which provide
 
 - `getCodeContent(string $path): string`: get code content that corresponds to `$path`.
 - `includeCode(string $codeContent): void`: evaluate `$codeContent`.
@@ -297,6 +297,48 @@ EvalCodeRepository is much simpler than FileCodeRepository, it `eval()` the inpu
 <br>
 
 ## DaggerFactory
+
+Generally, unless you want to use a custom CodeRepository in Dagger, Dagger and CodeRepository are usually created by DaggerFactory instead of manually.
+
+### `getDagger(array $config = []): Dagger`
+
+```php
+<?php
+    // default is use IncludeFileCodeRepository
+    $dagger = (new DaggerFactory())->getDagger();
+
+    // explicit use IncludeFileCodeRepository
+    $dagger = (new DaggerFactory())->getDagger([
+        'codeRepositoryType' => 'include',
+        'tempPath' => 'your/temp/path/'
+    ]);
+```
+
+|config key|description|
+|-|-|
+|codeRepositoryType|enum {include, require, eval}|
+|tempPath|temp path for FileCodeRepository|
+
+<br>
+
+### `initDagger(Dagger $dagger): Dagger`
+
+`initDagger` is a protected function that allows you to customize DaggerFactory, which can operate on Dagger before return it (mainly adding default rules).
+
+```php
+<?php
+    class CustomDaggerFactory extends DaggerFactory
+    {
+        protected function initDagger(Dagger $dagger): Dagger
+        {
+            $dagger->addDeleteRule('exit()');
+            return $dagger;
+        }
+    }
+
+    // all dagger create by CustomDaggerFactory has a delete exit() rule by default
+    $dagger = (new CustomDaggerFactory())->getDagger();
+```
 
 # Related
 
