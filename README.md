@@ -27,16 +27,17 @@ A php test tool that mock **anything** without using any extensions.
 # Features
 
 RewriteDagger can mock **anything** that test target dependened. No matter those function and class is from PHP buildin, third party or your project.
-Through rewrite test target code before it be included and evaluated, RewriteDagger can replace any words and content that exist in test target without any extension.
+By rewriting the test target code before including and evaluating it, RewriteDagger can replace any words and content present in the test target without any extension.
 
 # Usage
 
 ## Quick start
 
-there's a php function need to test follows three behavior are worked as expected
+There is a PHP function that needs to be tested as follows
+
 - header set
-- output json format
-- exit is called
+- output json
+- exit
 
 ```php
 <?php
@@ -54,9 +55,9 @@ there's a php function need to test follows three behavior are worked as expecte
     }
 ```
 
-This function is hard to test because it has a php builtin function which hard to perceive input (`header`) and a php language construct that will terminate execution of the script (`exit`).
+This function is difficult to test because it has a built-in PHP function (`header`) that is difficult to perceive input and a PHP language construct (`exit`) that terminates the script execution.
 
-To solve this problem, we test it by PHPUnit and RewriteDagger
+To solve this problem, we test it by PHPUnit and RewriteDagger.
 
 ```php
 <?php declare(strict_types=1);
@@ -105,8 +106,6 @@ To solve this problem, we test it by PHPUnit and RewriteDagger
     }
 ```
 
-than we run phpunit
-
 ```
 $ vendor/bin/phpunit ApiErrorResponseTest.php
 PHPUnit 9.4.0 by Sebastian Bergmann and contributors.
@@ -119,34 +118,34 @@ Time: 00:00.015, Memory: 6.00 MB
 OK (1 test, 3 assertions)
 ```
 
-Though RewriteDagger, we can easily replace `header` and `exit` to other class which can perceive input and not terminate execution of the script.
+With RewriteDagger, we can easily replace `header` and `exit` with other class that can perceive input and will not terminate script execution.
 
 ## How it works
 
-As [Features](#features) say, RewriteDagger rewrite test target code before it be included and evaluated.
+As [Features](#features) say, RewriteDagger rewrite the test target code before include and evaluate it.
 
-To achieve this function, it has three core part:
+To achieve this function, it has three core parts:
  - Dagger: rewrite test target code
- - CodeRepository: included and evaluated test target code
+ - CodeRepository: include and evaluate test target code
  - DaggerFactory: create Dagger
 
-Dagger mainly focse on various rewrite rule itself, then operate, include and evaluate code with CodeRepository that injection by DaggerFactory.
+Dagger mainly focuses on various rewriting rule itself, and uses the CodeRepository injected by DaggerFactory to operate, include and evaluate the code.
 
-Follows, we explain the use of these three components separately.
+Next, we explain the usage of these three components separately.
 
 ## Dagger
 
 ### `__construct(CodeRepositoryInterface $codeRepository)`
 
-Dagger dependent on any implement of CodeRepositoryInterface to help it evaluate code that has been rewrited.
+Dagger dependents on any implementation of CodeRepositoryInterface to help it evaluate the rewritten code.
 
 <br>
 
 ### `includeCode(String $path): void`
 
-Include, rewrite, evaluate code file that corresponds to `$path`.
+Include, rewrite, evaluate code file corresponding to `$path`.
 
-Dagger can has multi rewrite rules, when `includeCode` called, Dagger execution all of them on code file content before evaluate.
+Dagger can have multiple rewriting rules. When `includeCode` is called, Dagger executes all these rules on the code before evaluating it.
 
 <br>
 
@@ -273,7 +272,7 @@ All codeRepository is the implementation of CodeRepositoryInterface which provid
 - `getCodeContent(string $path): string`: get code content that corresponds to `$path`.
 - `includeCode(string $codeContent): void`: evaluate `$codeContent`.
 
-In PHP, there are two way can evaluate a string as code. One is write string as a real file then `include()` or `require()` it, the other is use `eval` function. RewriteDagger implement them in `FileCodeRepository` and `EvalCodeRepository` respectively.
+In PHP, there are two ways to evaluate a string as code. One is to write the string as a real file then `include()` or `require()` it, the other is to use `eval()` function. RewriteDagger implements them in FileCodeRepository and EvalCodeRepository respectively.
 
 <br>
 
@@ -281,7 +280,7 @@ In PHP, there are two way can evaluate a string as code. One is write string as 
 
 #### `__construct(string $tempPath = null)`
 
-FileCodeRepository write string as a temporary file at `$tempPath` with unique name than includes and evaluates it. If `$tempPath` is `null`, FileCodeRepository generate it auto by `sys_get_temp_dir()`.
+FileCodeRepository writes a string to a temporary file in `$tempPath` with a unique name, then includes and evaluates it. If `$tempPath` is `null`, FileCodeRepository automatically generated it by `sys_get_temp_dir()`.
 
 - IncludeFileCodeRepository: use `include()` includes and evaluates the file.
 - RequireFileCodeRepository: use `require()` includes and evaluates the file.
@@ -344,10 +343,10 @@ Generally, unless you want to use a custom CodeRepository in Dagger, Dagger and 
 
 # Testing
 
-All command about test are defined in `composer.json`.
+All the commands for testing are defined in `composer.json`.
 
 The only thing you need to notice is that phpunit varsion in `composer.lock` is 9, which don't support php 7.2.
-But RewriteDagger do support php 7.2, so make sure to run `compoesr update` to change phpunit varsion to 8 before test, if you are using php 7.2.
+But RewriteDagger does  support php 7.2, so if you are using php 7.2, make sure to run `compoesr update` to change phpunit varsion to 8 before testing.
 
 ```json
 {
