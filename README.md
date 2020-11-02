@@ -139,6 +139,9 @@ To achieve this function, it has three core parts:
 
 Dagger mainly focuses on various rewriting rule itself, and uses the CodeRepository injected by DaggerFactory to operate, include and evaluate the code.
 
+![RewriteDagger](https://raw.githubusercontent.com/avengerandy/RewriteDagger/master/RewriteDagger.png)
+(Drawing by [skanaar/nomnoml](https://github.com/skanaar/nomnoml))
+
 Next, we explain the usage of these three components separately.
 
 ## Dagger
@@ -281,6 +284,9 @@ All codeRepository is the implementation of CodeRepositoryInterface which provid
 - `includeCode(string $codeContent): void`: evaluate `$codeContent`.
 
 In PHP, there are two ways to evaluate a string as code. One is to write the string as a real file then `include()` or `require()` it, the other is to use `eval()` function. RewriteDagger implements them in FileCodeRepository and EvalCodeRepository respectively.
+
+![RewriteDagger](https://raw.githubusercontent.com/avengerandy/RewriteDagger/master/CodeRepository.png)
+(Drawing by [skanaar/nomnoml](https://github.com/skanaar/nomnoml))
 
 <br>
 
