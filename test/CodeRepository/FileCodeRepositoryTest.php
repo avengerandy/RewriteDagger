@@ -7,8 +7,8 @@
     use RewriteDagger\CodeRepository\FileCodeRepository;
     use RewriteDagger\CodeRepository\CodeRepositoryInterface;
 
-    // fake FileCodeRepository that can perceive includeAndEvaluateFile operation
-    class PerceiveFileCodeRepository extends FileCodeRepository
+    // fake FileCodeRepository that can sence includeAndEvaluateFile operation
+    class FileCodeRepositorySensor extends FileCodeRepository
     {
         public $filePath = '';
 
@@ -22,16 +22,16 @@
     {
         public function testInstance(): void
         {
-            $this->assertInstanceOf(CodeRepositoryInterface::class, new PerceiveFileCodeRepository(''));
+            $this->assertInstanceOf(CodeRepositoryInterface::class, new FileCodeRepositorySensor(''));
         }
 
         public function testConstruct(): void
         {
-            $fileCodeRepository = new PerceiveFileCodeRepository('');
+            $fileCodeRepository = new FileCodeRepositorySensor('');
             $this->assertSame('', $fileCodeRepository->getTempPath());
-            $fileCodeRepository = new PerceiveFileCodeRepository('tempPath');
+            $fileCodeRepository = new FileCodeRepositorySensor('tempPath');
             $this->assertSame('tempPath', $fileCodeRepository->getTempPath());
-            $fileCodeRepository = new PerceiveFileCodeRepository();
+            $fileCodeRepository = new FileCodeRepositorySensor();
             $this->assertSame(sys_get_temp_dir(), $fileCodeRepository->getTempPath());
         }
 
@@ -39,7 +39,7 @@
         {
             global $fileGetContentsReturn;
             $fileGetContentsReturn = 'mock_file_get_contents';
-            $fileCodeRepository = new PerceiveFileCodeRepository('');
+            $fileCodeRepository = new FileCodeRepositorySensor('');
             $this->assertSame('mock_file_get_contents', $fileCodeRepository->getCodeContent(''));
         }
 
@@ -51,7 +51,7 @@
             $chmodReturn = false;
             $this->expectException(\RuntimeException::class);
             $this->expectExceptionMessage('Could not chmod file: ');
-            $fileCodeRepository = new PerceiveFileCodeRepository('');
+            $fileCodeRepository = new FileCodeRepositorySensor('');
             $fileCodeRepository->includeCode('');
         }
 
@@ -65,7 +65,7 @@
             $filePutContentsReturn = false;
             $this->expectException(\RuntimeException::class);
             $this->expectExceptionMessage('Could not write file: ');
-            $fileCodeRepository = new PerceiveFileCodeRepository('');
+            $fileCodeRepository = new FileCodeRepositorySensor('');
             $fileCodeRepository->includeCode('');
         }
 
@@ -79,7 +79,7 @@
             $filePutContentsReturn = true;
             global $unlinkReturn;
             $unlinkReturn = true;
-            $fileCodeRepository = new PerceiveFileCodeRepository('');
+            $fileCodeRepository = new FileCodeRepositorySensor('');
             $fileCodeRepository->includeCode('');
             $this->assertSame('fake file path', $fileCodeRepository->filePath);
         }
@@ -96,7 +96,7 @@
             $unlinkReturn = false;
             $this->expectException(\RuntimeException::class);
             $this->expectExceptionMessage('Could not delete file: ');
-            $fileCodeRepository = new PerceiveFileCodeRepository('');
+            $fileCodeRepository = new FileCodeRepositorySensor('');
             $fileCodeRepository->includeCode('');
         }
     }

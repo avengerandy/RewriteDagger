@@ -5,8 +5,8 @@
     use RewriteDagger\Dagger;
     use RewriteDagger\CodeRepository\CodeRepositoryInterface;
 
-    // fake CodeRepository that can perceive includeCode input
-    class PerceiveCodeRepository implements CodeRepositoryInterface
+    // fake CodeRepository that can sense includeCode input
+    class CodeRepositorySensor implements CodeRepositoryInterface
     {
         public $includeCodeInput = null;
 
@@ -25,7 +25,7 @@
     {
         public function testAddDeleteRule(): void
         {
-            $codeRepository = new PerceiveCodeRepository();
+            $codeRepository = new CodeRepositorySensor();
             $dagger = new Dagger($codeRepository);
             $dagger->addDeleteRule('not found string');
             $dagger->addDeleteRule('is a number.');
@@ -35,7 +35,7 @@
 
         public function testAddRegexDeleteRule(): void
         {
-            $codeRepository = new PerceiveCodeRepository();
+            $codeRepository = new CodeRepositorySensor();
             $dagger = new Dagger($codeRepository);
             $dagger->addRegexDeleteRule('/not found string/');
             $dagger->addRegexDeleteRule('/\d+/');
@@ -45,7 +45,7 @@
 
         public function testAddReplaceRule(): void
         {
-            $codeRepository = new PerceiveCodeRepository();
+            $codeRepository = new CodeRepositorySensor();
             $dagger = new Dagger($codeRepository);
             $dagger->addReplaceRule('not found string', 'nothing');
             $dagger->addReplaceRule('is a number', ': Answer to the Ultimate Question of Everything');
@@ -55,7 +55,7 @@
 
         public function testAddRegexReplaceRule(): void
         {
-            $codeRepository = new PerceiveCodeRepository();
+            $codeRepository = new CodeRepositorySensor();
             $dagger = new Dagger($codeRepository);
             $dagger->addRegexReplaceRule('/not found string/', 'nothing');
             $dagger->addRegexReplaceRule('/\d+/', 'Number');
@@ -65,7 +65,7 @@
 
         public function testAddInsertBeforeRule(): void
         {
-            $codeRepository = new PerceiveCodeRepository();
+            $codeRepository = new CodeRepositorySensor();
             $dagger = new Dagger($codeRepository);
             $dagger->addInsertBeforeRule('not found string', 'nothing');
             $dagger->addInsertBeforeRule('number', 'answer and ');
@@ -75,7 +75,7 @@
 
         public function testAddRegexInsertBeforeRule(): void
         {
-            $codeRepository = new PerceiveCodeRepository();
+            $codeRepository = new CodeRepositorySensor();
             $dagger = new Dagger($codeRepository);
             $dagger->addRegexInsertBeforeRule('/not found string/', 'nothing');
             $dagger->addRegexInsertBeforeRule('/\d+/', '(Number) ');
@@ -85,7 +85,7 @@
 
         public function testAddInsertAfterRule(): void
         {
-            $codeRepository = new PerceiveCodeRepository();
+            $codeRepository = new CodeRepositorySensor();
             $dagger = new Dagger($codeRepository);
             $dagger->addInsertAfterRule('not found string', 'nothing');
             $dagger->addInsertAfterRule('number', ' and answer');
@@ -95,7 +95,7 @@
 
         public function testAddRegexInsertAfterRule(): void
         {
-            $codeRepository = new PerceiveCodeRepository();
+            $codeRepository = new CodeRepositorySensor();
             $dagger = new Dagger($codeRepository);
             $dagger->addRegexInsertAfterRule('/not found string/', 'nothing');
             $dagger->addRegexInsertAfterRule('/\d+/', ' (Number)');
@@ -105,7 +105,7 @@
 
         public function testAddRegexReplaceCallbackRule(): void
         {
-            $codeRepository = new PerceiveCodeRepository();
+            $codeRepository = new CodeRepositorySensor();
             $dagger = new Dagger($codeRepository);
             $dagger->addRegexReplaceCallbackRule('/not found string/', function () {
                 return 'nothing';
@@ -119,7 +119,7 @@
 
         public function testRemoveAllRules(): void
         {
-            $codeRepository = new PerceiveCodeRepository();
+            $codeRepository = new CodeRepositorySensor();
             $dagger = new Dagger($codeRepository);
             $dagger->addReplaceRule('is a number', ': Answer to the Ultimate Question of Everything');
             $dagger->removeAllRules();
@@ -131,7 +131,7 @@
         {
             $this->expectException(\RuntimeException::class);
             $this->expectExceptionMessage('preg_replace preg_last_error: code 1');
-            $codeRepository = new PerceiveCodeRepository();
+            $codeRepository = new CodeRepositorySensor();
             $dagger = new Dagger($codeRepository);
             $dagger->addRegexDeleteRule('/42/g');
             // ignore preg_replace_callback_array Warning for test Exception

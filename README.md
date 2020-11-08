@@ -63,7 +63,7 @@ There is a PHP function that needs to be tested as follows
     }
 ```
 
-This function is difficult to test because it has a built-in PHP function (`header`) that is difficult to perceive input and a PHP language construct (`exit`) that terminates the script execution.
+This function is difficult to test because it has a built-in PHP function (`header`) that is difficult to sense input and a PHP language construct (`exit`) that terminates the script execution.
 
 To solve this problem, we test it by PHPUnit and RewriteDagger.
 
@@ -73,7 +73,7 @@ To solve this problem, we test it by PHPUnit and RewriteDagger.
     use PHPUnit\Framework\TestCase;
     use RewriteDagger\DaggerFactory;
 
-    // Mock class that can perceive and save function result
+    // Mock class that can sense and save function result
     class Mock
     {
         static $exitHasCalled = false;
@@ -126,7 +126,7 @@ Time: 00:00.015, Memory: 6.00 MB
 OK (1 test, 3 assertions)
 ```
 
-With RewriteDagger, we can easily replace `header` and `exit` with other class that can perceive input and will not terminate script execution.
+With RewriteDagger, we can easily replace `header` and `exit` with other class that can sense input and will not terminate script execution.
 
 ## How it works
 

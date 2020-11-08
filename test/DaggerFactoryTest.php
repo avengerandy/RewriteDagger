@@ -9,8 +9,8 @@
     use RewriteDagger\CodeRepository\RequireFileCodeRepository;
     use RewriteDagger\CodeRepository\EvalCodeRepository;
 
-    // fake CodeRepository that can perceive initDagger operation
-    class PerceiveDaggerFactory extends DaggerFactory
+    // fake CodeRepository that can sense initDagger operation
+    class DaggerFactorySensor extends DaggerFactory
     {
         protected function initDagger(Dagger $dagger): Dagger
         {
@@ -69,7 +69,7 @@
 
         public function testInitDagger(): void
         {
-            $daggerFactory = new PerceiveDaggerFactory();
+            $daggerFactory = new DaggerFactorySensor();
             $dagger = $daggerFactory->getDagger();
             $ruleList = $this->getDaggerPrivateProperty($dagger, 'ruleList');
             $this->assertSame('to', $ruleList['/from/']());
