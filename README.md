@@ -22,6 +22,7 @@ A php test tool that mock **anything** without using any extensions.
     - [DaggerFactory](#daggerFactory)
 - [Testing](#testing)
 - [Disadvantage](#disadvantage)
+- [Conclusion](#conclusion)
 - [Inspire](#inspire)
 - [Related repo](#related-repo)
 - [License](#license)
@@ -393,6 +394,12 @@ The two biggest disadvantages of using RewriteDagger are reduced test coverage a
 
 - test coverage: Since the rewritten code does not belong to the original code in the project, for most test coverage tools, the original code in the project is not actually executed.
 - readability: People who read the test program must understand all of the tested target to understand the side effects of each rewriting rule.
+
+# Conclusion
+
+RewriteDagger is not intended to be a modern, full-featured mocking framework. It trades strict structure and advanced language features for simplicity, zero-extension deployment, and compatibility with legacy PHP systems (environments that may still run on PHP 4/5).
+
+This design inevitably introduces complexity in the rewritten code, and prevents the use of certain newer PHP features or AST-based tooling. However, for teams dealing with legacy codebases where the original source cannot be modified safely, RewriteDagger provides a practical, low-friction shielding layer that enables testing without invasive refactoring.
 
 # Inspire
 
